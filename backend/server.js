@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
 
 const app = express();
 
@@ -9,21 +8,31 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/auth", require("./routes/authRoutes"));
-app.use("/posts", require("./routes/postRoutes"));
-
-// DB Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
-
-// Server start
-if(process.env.NODE_ENV !== 'production'){
-  app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Test route (VERY IMPORTANT)
+app.get("/", (req, res) => {
+  res.send("API running 🚀");
 });
+
+// Routes
+app.use("/auth", require("../routes/authRoutes"));
+app.use("/posts", require("../routes/postRoutes"));
+
+// MongoDB (serverless-safe)
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) return;
+
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    isConnected = true;
+    console.log("MongoDB Connected");
+  } catch (err) {
+    console.error("MongoDB Error:", err);
+  }
 }
 
+connectDB();
 
-export default app;
+// ✅ COMMONJS EXPORT (REQUIRED)
+module.exports = app;
