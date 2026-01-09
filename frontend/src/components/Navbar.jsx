@@ -7,7 +7,6 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
-      {/* Brand Logo */}
       <Link 
         to="/" 
         className="font-black text-2xl tracking-tighter text-slate-900 flex items-center gap-2 group"
@@ -18,7 +17,7 @@ const Navbar = () => {
         MyBlog
       </Link>
 
-      {/* Navigation Links */}
+
       <div className="flex items-center gap-8">
         <Link 
           to="/" 
@@ -35,6 +34,7 @@ const Navbar = () => {
             >
               Create Post
             </Link>
+            <p className="font-bold">{user.name.toUpperCase()} 👋</p>
             <button
               onClick={logout}
               className="text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 px-5 py-2.5 rounded-full shadow-lg shadow-slate-200 transition-all active:scale-95"
