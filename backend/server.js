@@ -19,6 +19,11 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.log(err));
 
 // Server start
-app.listen(5000, () => {
+if(process.env.NODE_ENV !== 'production'){
+  app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
+}
+
+
+export default app;
